@@ -1,6 +1,7 @@
 <template>
   <v-app>
   <v-app-bar app>
+    <AppBar/>
   </v-app-bar>
   <!-- <v-navigation-drawer app>  </v-navigation-drawer> -->
   <v-content>
@@ -15,11 +16,12 @@
 </template>
 
 <script>
-
+import AppBar from '../src/views/AppBar'
 export default {
   name: 'App',
 
   components: {
+    AppBar
   },
 
   data: () => ({
