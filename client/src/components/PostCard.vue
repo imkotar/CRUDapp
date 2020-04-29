@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-card
-      class="mx-auto"
       max-width="600"
       outlined
       v-for="post in posts"

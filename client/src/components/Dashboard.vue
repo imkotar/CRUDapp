@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="center">
     <h1>Dashboard page</h1>
-    <button @click="viewData">refresh posts</button>
     <EditPostCard buttonName="Add new post" :post="newPost" v-on:refreshParent="viewData()" />
     <PostCard :posts="posts" v-on:refreshParent="viewData()"/>
   </div>
@@ -40,5 +39,11 @@ export default {
 </script>
 
 <style scoped>
-
+  .center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+  }
 </style>

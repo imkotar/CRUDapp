@@ -1,7 +1,6 @@
 <template>
   <v-app>
   <v-app-bar app>
-    <!-- -->
   </v-app-bar>
   <!-- <v-navigation-drawer app>  </v-navigation-drawer> -->
   <v-content>
@@ -16,13 +15,11 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld'
 
 export default {
   name: 'App',
 
   components: {
-    // HelloWorld
   },
 
   data: () => ({
