@@ -5,7 +5,7 @@ const config = require('./src/config/config');
 const app = express();
 const mongoose = require('mongoose');
 const postRoute = require('./src/routes/posts')
-const userRoute = require('./src/routes/users')
+const userRoute = require('./src/controllers/AuthenticationController')
 
 app.use(bodyParser.json());
 app.use(cors());

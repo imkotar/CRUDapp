@@ -7,11 +7,13 @@
       <v-card-title class="headline">
         <p>Login:</p>
         <v-text-field
+          v-model="username"
           label="User Name"
           outlined
         >
         </v-text-field>
         <v-text-field
+        v-model="password"
           label="Password"
           type="password"
           outlined
@@ -33,7 +35,9 @@ export default {
   name: 'LoginLogout',
   data () {
     return {
-      dialog: false
+      dialog: false,
+      username: '',
+      password: ''
     }
   }
 }
