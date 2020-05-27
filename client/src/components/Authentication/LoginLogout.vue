@@ -7,13 +7,13 @@
       <v-card-title class="headline">
         <p>Login:</p>
         <v-text-field
-          v-model="username"
-          label="User Name"
+          v-model="email"
+          label="E-mail"
           outlined
         >
         </v-text-field>
         <v-text-field
-        v-model="password"
+          v-model="password"
           label="Password"
           type="password"
           outlined
@@ -23,21 +23,30 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="red" text @click="dialog = false">CLOSE</v-btn>
-        <v-btn color="green" text @click="dialog = false">LOGIN</v-btn>
+        <v-btn color="green" text @click="login">LOGIN</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-
+import AuthenticationService from '../../services/AuthenticationService'
 export default {
   name: 'LoginLogout',
   data () {
     return {
       dialog: false,
-      username: '',
+      email: 'frontTest@mail.com',
       password: ''
+    }
+  },
+  methods: {
+    async login () {
+      const loginUser = await AuthenticationService.loginUser(this.email, this.password)
+      console.log(loginUser)
+      this.email = ''
+      this.password = ''
+      this.dialog = false
     }
   }
 }

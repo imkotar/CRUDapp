@@ -5,19 +5,28 @@
     </template>
     <v-card>
       <v-card-title class="headline">
-        <p>Register:</p>
+        <p>Register: //add errors display!</p>
         <v-text-field
+          v-model="name"
           label="User Name"
           outlined
         >
         </v-text-field>
         <v-text-field
+          v-model="email"
+          label="E-mail"
+          outlined
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="password"
           label="password"
           type="password"
           outlined
         >
         </v-text-field>
         <v-text-field
+          v-model="password2"
           label="repeat password"
           type="password"
           outlined
@@ -27,19 +36,34 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="red" text @click="dialog = false">CLOSE</v-btn>
-        <v-btn color="green" text @click="dialog = false">REGISTER</v-btn>
+        <v-btn color="green" text @click="register">REGISTER</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-
+import AuthenticationService from '../../services/AuthenticationService'
 export default {
   name: 'Register',
   data () {
     return {
-      dialog: false
+      dialog: false,
+      name: 'frontTest',
+      email: 'frontTest@mail.com',
+      password: '123456',
+      password2: '123456'
+    }
+  },
+  methods: {
+    async register () {
+      const registerUser = await AuthenticationService.registerUser(this.name, this.email, this.password, this.password2)
+      console.log(registerUser)
+      this.name = ''
+      this.email = ''
+      this.password = ''
+      this.password2 = ''
+      this.dialog = false
     }
   }
 }
