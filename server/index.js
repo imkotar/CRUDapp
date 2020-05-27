@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const passport = require('passport')
 const config = require('./src/config/config')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
@@ -31,7 +32,9 @@ app.use(
     })
   );
 
-
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect flash
 app.use(flash());
