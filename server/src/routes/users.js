@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken');
 const User = require('../models/User')
-const passport = require('passport')
+// const AuthenticationController = require('../controllers/AuthenticationController')
 
 //FOR TESTING
 router.get('/', async (req, res) => {
@@ -32,41 +33,50 @@ router.post('/register', async (req, res)=>{
   if (errors.length > 0) {
     res.json(errors)
   } else {
-        const newUser = new User({
-          name,
-          email,
-          password
+      const newUser = new User({
+        name,
+        email,
+        password
+      })
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          try{
+            newUser.password = hash;
+            newUser.save()
+            res.json('Success!');
+          }catch(err){
+            res.json(err)
+          }
         })
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            try{
-              newUser.password = hash;
-              newUser.save()
-              res.json('Success!');
-            }catch(err){
-              res.json(err)
-            }
-          })
-        })
-      }
+      })
+    }
 })
 
 // Login
-router.post('/login', (req, res, next) => {
-  console.log(req.body)
-  passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/users/login',
-    failureFlash: true
+router.post('/login', async (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) {
+      console.log(err)
+    }
+    if (!user) {
+      return res.json({
+        title: 'user not found',
+        error: 'invalid credentials'
+      })
+    }
+     if (!bcrypt.compareSync(req.body.password, user.password)) {
+      return res.json({
+        tite: 'login failed',
+        error: 'invalid credentials'
+      })
+    }
+    let token = jwt.sign({ userId: user._id}, 'secretkey');
+    return res.json({
+      title: 'login sucess',
+      token: token
+    })
   })
-  (req, res, next);
 });
 
-// Logout
-router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
-});
 
 module.exports = router;

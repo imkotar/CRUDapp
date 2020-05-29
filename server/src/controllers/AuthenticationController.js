@@ -1,53 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const User =require('../models/User')
+const bcrypt = require('bcryptjs');
+const User = require('../models/User');
 
-//GETS ALL USERS
-router.get('/', async (req, res) => {
-    try{
-        const users = await User.find();
-        res.json(users)
-    }catch(err){
-        res.json(err)
+function AuthenticationController (req) {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) return res.status(500).json({
+      title: 'server error',
+      error: err
+    })
+    if (!user) {
+      return res.status(401).json({
+        title: 'user not found',
+        error: 'invalid credentials'
+      })
     }
-});
-
-//SPECIFIC USER
-router.get('/:userId', async (req, res) => {
-    try{
-    const user = await User.findById(req.params.userId);
-    res.json(user);
-    }catch(err){
-        req.json(err)
+    //incorrect password
+    if (!bcrypt.compareSync(req.body.password, user.password)) {
+      return res.status(401).json({
+        tite: 'login failed',
+        error: 'invalid credentials'
+      })
     }
-});
+    //IF ALL IS GOOD create a token and send to frontend
+    let token = jwt.sign({ userId: user._id}, 'secretkey');
+    return res.status(200).json({
+      title: 'login sucess',
+      token: token
+    })
+  })
+};
 
-//ADD NEW USER
-router.post('/', async (req, res)=>{
-    console.log(req.body)
-    const user = new User(
-        {
-            username: req.body.username,
-            password: req.body.password
-        }
-    );
-    try{
-        const savedUser = await user.save();
-        res.json(savedUser);
-    }catch(err){
-        res.json(err)
-    }
-})
-
-//DELETE SPECIFIC POST
-router.delete('/:userId', async (req, res) => {
-    try{
-    const user = await User.remove({_id: req.params.userId });
-    res.json(user);
-    }catch(err){
-        req.json(err)
-    }
-});
-
-
-module.exports = router;
+module.exports = AuthenticationController;
