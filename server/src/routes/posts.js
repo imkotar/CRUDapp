@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Post =require('../models/Post')
 
-//GETS ALL POSTS
 router.get('/', async (req, res) => {
     try{
         const posts = await Post.find();
@@ -12,7 +11,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-//SUBMIT POSTS
 router.post('/', async (req, res)=>{
     console.log(req.body)
     const post = new Post(
@@ -29,7 +27,6 @@ router.post('/', async (req, res)=>{
     }
 })
 
-//SPECIFIC POST
 router.get('/:postId', async (req, res) => {
     try{
     const post = await Post.findById(req.params.postId);
@@ -39,7 +36,6 @@ router.get('/:postId', async (req, res) => {
     }
 });
 
-//DELETE SPECIFIC POST
 router.delete('/:postId', async (req, res) => {
     try{
     const post = await Post.remove({_id: req.params.postId });
@@ -49,7 +45,6 @@ router.delete('/:postId', async (req, res) => {
     }
 });
 
-//UPDATE A POST
 router.patch('/:postId', async (req, res) => {
     try{
     const updatedPost = await Post.updateOne({_id: req.params.postId }, {

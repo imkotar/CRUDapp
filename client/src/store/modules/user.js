@@ -1,23 +1,34 @@
-import axios from 'axios' // import AuthenticationService from '../../services/AuthenticationService'
+import Axios from 'axios'
+const baseURL = 'http://localhost:7000/users'
 
 export default {
   state: {},
   getters: {},
-  mutations: {},
+  mutations: {
+    getToken (state, token) {
+      state.token = token
+    }
+  },
   actions: {
-    LOGIN: ({ commit }, payload) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .post('login_check', payload)
-          .then(({ data, status }) => {
-            if (status === 200) {
-              resolve(true)
-            }
-          })
-          .catch(error => {
-            reject(error)
-          })
+    getToken (context, credentials) {
+      return Axios.post(`${baseURL}/login`, {
+        email: credentials.email,
+        password: credentials.password
       })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.error) {
+            return res.data
+          } else {
+            const token = res.data.token
+            localStorage.setItem('access_token', token)
+            context.commit('getToken', token)
+            return res.data
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

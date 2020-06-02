@@ -3,18 +3,8 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const User = require('../models/User')
-// const AuthenticationController = require('../controllers/AuthenticationController')
 
-//FOR TESTING
-router.get('/', async (req, res) => {
-  try{
-      const users = await User.find();
-      res.json(users)
-  }catch(err){
-      res.json(err)
-  }
-});
-// DO 'EMAIL ALREADY EXIST' CHECK !!!!
+
 router.post('/register', async (req, res)=>{
   const { name, email, password, password2 } = req.body
   let errors = []
@@ -22,6 +12,9 @@ router.post('/register', async (req, res)=>{
     errors.push('Please enter all fields');
   }
 
+  if (User.findOne({ email: req.body.email })) {
+    errors.push('User already exist');
+  }
   if (password != password2) {
     errors.push('Passwords do not match');
   }
@@ -50,11 +43,11 @@ router.post('/register', async (req, res)=>{
         })
       })
     }
-})
+});
 
 // Login
 router.post('/login', async (req, res) => {
-  User.findOne({ email: req.body.email }, (err, user) => {
+  await User.findOne({ email: req.body.email }, (err, user) => {
     if (err) {
       console.log(err)
     }

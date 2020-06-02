@@ -1,17 +1,25 @@
 <template>
   <div class="menu">
     <Register/>
-    <LoginLogout/>
+    <Login/>
+    <Logout/>
   </div>
 </template>
 <script>
-import LoginLogout from './LoginLogout'
+import Login from './Login'
+import Logout from './Logout'
 import Register from './Register'
 export default {
   name: 'Authentication',
   components: {
-    LoginLogout,
+    Login,
+    Logout,
     Register
+  },
+  data () {
+    return {
+      isLogged: false
+    }
   }
 }
 </script>

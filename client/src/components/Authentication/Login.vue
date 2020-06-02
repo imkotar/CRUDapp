@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="290">
     <template v-slot:activator="{ on }">
-      <v-btn text v-on="on">Login/Logout</v-btn>
+      <v-btn text v-on="on">Login</v-btn>
     </template>
     <v-card>
       <v-card-title class="headline">
@@ -24,29 +24,43 @@
         <v-spacer></v-spacer>
         <v-btn color="red" text @click="dialog = false">CLOSE</v-btn>
         <v-btn color="green" text @click="login">LOGIN</v-btn>
+        <v-btn color="black" text @click="testLogin">TEST LOGIN</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import AuthenticationService from '../../services/AuthenticationService'
+
 export default {
-  name: 'LoginLogout',
+  name: 'Login',
   data () {
     return {
       dialog: false,
       email: 'frontTest@mail.com',
-      password: ''
+      password: '',
+      error: ''
     }
   },
   methods: {
-    async login () {
-      const loginUser = await AuthenticationService.loginUser(this.email, this.password)
-      console.log(loginUser)
-      this.email = ''
-      this.password = ''
-      this.dialog = false
+    testLogin () {
+      this.email = 'frontTest@mail.com'
+      this.password = '123456'
+      this.login()
+    },
+    login () {
+      this.$store.dispatch('getToken', {
+        email: this.email,
+        password: this.password
+      })
+        .then(response => {
+          if (!response.error) {
+            this.email = ''
+            this.password = ''
+            this.dialog = false
+            this.$router.push('/admin')
+          }
+        })
     }
   }
 }

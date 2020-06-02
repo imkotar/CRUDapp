@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <h1>Dashboard page</h1>
+    <h1>Main page</h1>
     <PostCard :posts="posts"/>
   </div>
 </template>
