@@ -24,13 +24,15 @@ export default {
   props: {
     posts: Array
   },
+  computed: {
+    getPosts () {
+      return this.posts
+    }
+  },
   methods: {
     async deletePost (id) {
       await PostsService.deletePost(id)
       this.refreshParent()
-    },
-    refreshParent () {
-      this.$emit('refreshParent')
     }
   }
 }

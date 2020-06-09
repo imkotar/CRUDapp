@@ -1,21 +1,30 @@
 <template>
   <div class="center">
     <h1>Main page</h1>
-    <Posts/>
+    <PostCard :posts="posts"/>
   </div>
 </template>
 
 <script>
-import Posts from './Posts'
+import PostsService from '../services/PostsService'
+import PostCard from './PostCard'
 
 export default {
   name: 'Dashboard',
   components: {
-    Posts
+    PostCard
   },
-  computed: {
-    posts () {
-      return Object.values(this.$store.state.posts)
+  data () {
+    return {
+      posts: [],
+      newPost: {}
+    }
+  },
+  async created () {
+    try {
+      this.posts = await PostsService.getPosts()
+    } catch (err) {
+      console.log(err)
     }
   }
 }
