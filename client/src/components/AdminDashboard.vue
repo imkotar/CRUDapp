@@ -2,20 +2,19 @@
   <div class="center">
     <h1>Admin Dashboard page</h1>
     <EditPostCard buttonName="Add new post" :post="newPost" v-on:refreshParent="viewData()" />
-    <AdminPostCard :posts="posts" v-on:refreshParent="viewData()"/>
+    <Posts/>
   </div>
 </template>
 
 <script>
-import PostsService from '../services/PostsService'
-import AdminPostCard from './AdminPostCard'
 import EditPostCard from './EditPostCard'
+import Posts from './Posts'
 
 export default {
   name: 'AdminDashboard',
   components: {
-    AdminPostCard,
-    EditPostCard
+    EditPostCard,
+    Posts
   },
   data () {
     return {
@@ -28,14 +27,8 @@ export default {
       if (localStorage.getItem('access_token') === null) {
         this.$router.push('/')
       }
-      this.posts = await PostsService.getPosts()
     } catch (err) {
       console.log(err)
-    }
-  },
-  methods: {
-    async viewData () {
-      this.posts = await PostsService.getPosts()
     }
   }
 }

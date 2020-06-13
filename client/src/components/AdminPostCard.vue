@@ -15,7 +15,7 @@
       </v-list-item>
       <v-card-actions>
         <v-btn text @click="deletePost(post._id)">DELETE</v-btn>
-        <EditPostCard buttonName="Modify" :post="post" v-on:refreshParent="refreshParent()" />
+        <EditPostCard buttonName="Modify" :post="post" />
       </v-card-actions>
     </v-card>
   </div>
@@ -33,16 +33,10 @@ export default {
   props: {
     posts: Array
   },
-  created () {
-    console.log(this.posts)
-  },
   methods: {
     async deletePost (id) {
       await PostsService.deletePost(id)
       this.refreshParent()
-    },
-    refreshParent () {
-      this.$emit('refreshParent')
     }
   }
 }

@@ -32,7 +32,7 @@ router.get('/:postId', async (req, res) => {
     const post = await Post.findById(req.params.postId);
     res.json(post);
     }catch(err){
-        req.json(err)
+        res.json(err)
     }
 });
 
@@ -41,7 +41,7 @@ router.delete('/:postId', async (req, res) => {
     const post = await Post.remove({_id: req.params.postId });
     res.json(post);
     }catch(err){
-        req.json(err)
+        res.json(err)
     }
 });
 
@@ -52,11 +52,10 @@ router.patch('/:postId', async (req, res) => {
             title: req.body.title,
             description: req.body.description
         }
-    });
+    })
     res.json(updatedPost)
-    res.json(post);
     }catch(err){
-        req.json(err)
+        res.json(err)
     }
 });
 

@@ -43,21 +43,21 @@
 </template>
 
 <script>
-import AuthenticationService from '../../services/AuthenticationService'
+import RegistrationService from '../../services/RegistrationService'
 export default {
   name: 'Register',
   data () {
     return {
       dialog: false,
-      name: 'frontTest',
-      email: 'frontTest@mail.com',
-      password: '123456',
-      password2: '123456'
+      name: '',
+      email: '',
+      password: '',
+      password2: ''
     }
   },
   methods: {
     async register () {
-      const registerUser = await AuthenticationService.registerUser(this.name, this.email, this.password, this.password2)
+      const registerUser = await RegistrationService.registerUser(this.name, this.email, this.password, this.password2)
       console.log(registerUser)
       this.name = ''
       this.email = ''

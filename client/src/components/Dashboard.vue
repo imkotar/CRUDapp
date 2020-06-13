@@ -12,11 +12,6 @@ export default {
   name: 'Dashboard',
   components: {
     Posts
-  },
-  computed: {
-    posts () {
-      return Object.values(this.$store.state.posts)
-    }
   }
 }
 </script>

@@ -22,15 +22,15 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="green darken-1" text @click="dialog = false">CLOSE</v-btn>
-        <v-btn v-if="post._id===undefined" color="green darken-1" text @click="addPost()">add new post</v-btn>
-        <v-btn v-else color="green darken-1" text @click="modifyPost(post._id)">SAVE</v-btn>
+        <v-btn v-if="post._id===undefined" color="green darken-1" text @click="addPostTrigger()">add new post</v-btn>
+        <v-btn v-else color="green darken-1" text @click="modifyPostTrigger(post._id)">SAVE</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import PostsService from '../services/PostsService'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'EditPostCard',
@@ -46,20 +46,23 @@ export default {
     }
   },
   methods: {
-    async addPost () {
-      await PostsService.addPost(this.title, this.description)
-      this.title = ''
-      this.description = ''
+    ...mapActions(['modifyPost', 'addPost']),
+    modifyPostTrigger (id) {
+      const postData = {
+        id: id,
+        title: this.title,
+        description: this.description
+      }
+      this.modifyPost(postData)
       this.dialog = false
-      this.refreshParent()
     },
-    async modifyPost (id) {
-      await PostsService.modifyPost(id, this.title, this.description)
+    addPostTrigger () {
+      const postData = {
+        title: this.title,
+        description: this.description
+      }
+      this.addPost(postData)
       this.dialog = false
-      this.refreshParent()
-    },
-    refreshParent () {
-      this.$emit('refreshParent')
     }
   }
 }
