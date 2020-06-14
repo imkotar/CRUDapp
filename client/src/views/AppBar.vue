@@ -1,14 +1,14 @@
 <template>
   <div>
-      <AuthenticationComponent/>
+      <MenuComponent/>
   </div>
 </template>
 <script>
-import AuthenticationComponent from '../components/Authentication/AuthenticationComponent'
+import MenuComponent from '../components/appBarMenu/MenuComponent'
 export default {
   name: 'AppBar',
   components: {
-    AuthenticationComponent
+    MenuComponent
   }
 }
 </script>

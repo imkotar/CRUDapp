@@ -5,8 +5,8 @@ export default {
   state: {},
   getters: {},
   mutations: {
-    getToken (state, token) {
-      state.token = token
+    getToken (state, data) {
+      state.token = data.token
     }
   },
   actions: {
@@ -16,13 +16,12 @@ export default {
         password: credentials.password
       })
         .then(res => {
-          console.log(res.data)
           if (res.data.error) {
             return res.data
           } else {
-            const token = res.data.token
-            localStorage.setItem('access_token', token)
-            context.commit('getToken', token)
+            const data = res.data
+            localStorage.setItem('access_token', data.token)
+            context.commit('getToken', data)
             return res.data
           }
         })

@@ -2,6 +2,7 @@
   <div>
     <v-card
       max-width="600"
+      min-width="350"
       outlined
       v-for="post in posts"
       :key="post.id"

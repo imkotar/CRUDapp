@@ -1,35 +1,24 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="290">
-    <template v-slot:activator="{ on }">
-      <v-btn text @click="clearToken" v-on="on">Logout</v-btn>
-    </template>
-    <v-card>
-      <v-card-title class="headline">
-        <p>You are logged out!</p>
-      </v-card-title>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="green" text @click="close">CLOSE</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <v-card class="mx-auto" max-width="400" outlined>
+    <v-card-title>
+      <p>You are logged out!</p>
+    </v-card-title>
+    <v-card-text>
+      Click OK to continue.
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="green" text @click="close">OK</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: 'Logout',
-  data () {
-    return {
-      dialog: false
-    }
-  },
   methods: {
-    clearToken () {
-      localStorage.removeItem('access_token')
-    },
     close () {
       this.$router.push('/')
-      this.dialog = false
     }
   }
 }

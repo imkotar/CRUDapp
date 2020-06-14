@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       dialog: false,
-      email: 'frontTest@mail.com',
+      email: '',
       password: '',
       error: ''
     }
